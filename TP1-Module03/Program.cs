@@ -49,7 +49,10 @@ namespace TP1_Module03
 
 
             Console.WriteLine("Afficher l’auteur ayant écrit le plus de livres");
+            //Correction
+            Auteur auteur = ListeLivres.GroupBy(x => x.Auteur).OrderByDescending(g => g.Count()).FirstOrDefault().Key;
             //Console.WriteLine(ListeLivres.Distinct().Count(x => x.Auteur == ListeAuteurs));
+            Console.WriteLine(auteur.Prenom + " " + auteur.Nom);
             Console.WriteLine();
 
             // OK

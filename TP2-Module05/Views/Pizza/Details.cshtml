@@ -1,0 +1,16 @@
+﻿@model TP2_Module05.Models.PizzaVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details de la pizz'</h2>
+
+<div>
+    <hr />
+    @Html.Partial("PartialPizzaDetails", Model)
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Pizza.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,8 +1,8 @@
 ﻿using BO;
-using System;
+using BO.Validation;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace TP2_Module05.Models
 {
@@ -10,10 +10,16 @@ namespace TP2_Module05.Models
     {
         public Pizza Pizza { get; set; }
 
-        public List<Pate> Pates { get; set; }
-        public int IdPate { get; set; }
+        public List<SelectListItem> Pates { get; set; } = new List<SelectListItem>();
 
-        public List<Ingredient> Ingredients { get; set; }
-        public List<int> IdIngredients { get; set; }
+        [Required]
+        public int? IdPate { get; set; }
+
+        public List<SelectListItem> Ingredients { get; set; } = new List<SelectListItem>();
+
+        [Required]
+        [MinListNumber(2)]
+        [MaxListNumber(5)]
+        public List<int> IdIngredients { get; set; } = new List<int>();
     }
 }

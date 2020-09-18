@@ -1,10 +1,9 @@
-﻿using System;
+﻿using BO;
+using BO.Utils;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TP2_Module05.Models;
-using TP2_Module05.Utils;
 
 namespace TP2_Module05.Controllers
 {
@@ -20,10 +19,11 @@ namespace TP2_Module05.Controllers
         public ActionResult Details(int id)
         {
             PizzaVM pizzaVM = new PizzaVM() { Pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id) };
+            //Pizza pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id);
 
             if (pizzaVM.Pizza != null)
             {
-            return View();
+                return View(pizzaVM);
             }
             else
             {
@@ -35,8 +35,8 @@ namespace TP2_Module05.Controllers
         public ActionResult Create()
         {
             PizzaVM vm = new PizzaVM();
-            vm.Pates = FakeDb.Instance.Pates;
-            vm.Ingredients = FakeDb.Instance.Ingredients;
+            vm.Pates = FakeDb.Instance.Pates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+            vm.Ingredients = FakeDb.Instance.Ingredients.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
             return View(vm);
         }
 
@@ -46,33 +46,73 @@ namespace TP2_Module05.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-                vm.Pizza.Pate = FakeDb.Instance.Pates.FirstOrDefault(p => p.Id == vm.IdPate);
-                vm.Pizza.Ingredients = FakeDb.Instance.Ingredients.Where(i => vm.IdIngredients.Contains(i.Id)).ToList();
 
-                FakeDb.Instance.Pizzas.Add(vm.Pizza);
+                if (ModelState.IsValid && IngredientsValidator(vm)) // && ValidateVM(vm))
+                {
+                    vm.Pizza.Pate = FakeDb.Instance.Pates.FirstOrDefault(p => p.Id == vm.IdPate);
+                    vm.Pizza.Ingredients = FakeDb.Instance.Ingredients.Where(i => vm.IdIngredients.Contains(i.Id)).ToList();
+                    vm.Pizza.Id = FakeDb.Instance.Pizzas.Count == 0 ? 1 : FakeDb.Instance.Pizzas.Max(x => x.Id) + 1;
+
+                    FakeDb.Instance.Pizzas.Add(vm.Pizza);
+                    this.HttpContext.Response.StatusCode = 201;
+                }
+                else
+                {
+                    vm.Pates = FakeDb.Instance.Pates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                    vm.Ingredients = FakeDb.Instance.Ingredients.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                    this.HttpContext.Response.StatusCode = 418;
+                    return View(vm);
+                }
+
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(vm);
             }
         }
 
         // GET: Pizza/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            PizzaVM vm = new PizzaVM() { Pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id) };
+            vm.Pates = FakeDb.Instance.Pates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+            vm.Ingredients = FakeDb.Instance.Ingredients.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+
+            if (vm.Pizza.Pate != null)
+            {
+                vm.IdPate = vm.Pizza.Pate.Id;
+            }
+
+            if (vm.Pizza.Ingredients.Any())
+            {
+                vm.IdIngredients = vm.Pizza.Ingredients.Select(x => x.Id).ToList();
+            }
+
+            return View(vm);
         }
 
         // POST: Pizza/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, PizzaVM vm)
         {
             try
             {
                 // TODO: Add update logic here
+                if (ModelState.IsValid) // && ValidateVM(vm))
+                {
+                    Pizza pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id);
+                    pizza.Pate = FakeDb.Instance.Pates.FirstOrDefault(p => p.Id == vm.IdPate);
+                    pizza.Ingredients = FakeDb.Instance.Ingredients.Where(i => vm.IdIngredients.Contains(i.Id)).ToList();
+                    pizza.Nom = vm.Pizza.Nom;
+                }
+                else
+                {
+                    vm.Pates = FakeDb.Instance.Pates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                    vm.Ingredients = FakeDb.Instance.Ingredients.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                    return View(vm);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -85,7 +125,8 @@ namespace TP2_Module05.Controllers
         // GET: Pizza/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            PizzaVM vm = new PizzaVM() { Pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id) };
+            return View(vm);
         }
 
         // POST: Pizza/Delete/5
@@ -95,6 +136,8 @@ namespace TP2_Module05.Controllers
             try
             {
                 // TODO: Add delete logic here
+                Pizza pizza = FakeDb.Instance.Pizzas.FirstOrDefault(p => p.Id == id);
+                FakeDb.Instance.Pizzas.Remove(pizza);
 
                 return RedirectToAction("Index");
             }
@@ -102,6 +145,25 @@ namespace TP2_Module05.Controllers
             {
                 return View();
             }
+        }
+
+        private bool IngredientsValidator(PizzaVM vm)
+        {
+            var idIngredients = vm.IdIngredients;
+            bool isValid = true;
+
+            // pour chaque pizza
+            foreach (var item in FakeDb.Instance.Pizzas)
+            {
+                // tester si le contenu de liste des ingrédients est strictement égale
+                if (idIngredients.SequenceEqual(item.Ingredients.Select(x => x.Id)))
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            return isValid;
         }
     }
 }

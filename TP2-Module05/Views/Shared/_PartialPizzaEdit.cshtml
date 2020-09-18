@@ -1,0 +1,8 @@
+﻿@model TP2_Module05.Models.PizzaVM
+
+@{
+    ViewBag.Title = "_PartialPizzaEdit";
+}
+
+@Html.HiddenFor(model => model.Pizza.Id);
+@Html.Partial("_PartialPizzaCreate", Model)

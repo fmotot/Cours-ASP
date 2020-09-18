@@ -1,0 +1,36 @@
+﻿@model TP2_Module05.Models.PizzaVM
+
+@{
+    ViewBag.Title = "_PartialPizzaCreate";
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-group">
+    @Html.LabelFor(model => model.Pizza.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Pizza.Nom, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Pizza.Nom, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Pizza.Pate, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(
+            model => model.IdPate,
+            Model.Pates,
+            new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.IdPate, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Pizza.Ingredients, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.ListBoxFor(
+            model => model.IdIngredients,
+            Model.Ingredients,
+            new { htmlAttributes = new { @class = "form-control", @size = Model.Ingredients.Count } })
+        @Html.ValidationMessageFor(model => model.IdIngredients, "", new { @class = "text-danger" })
+    </div>
+</div>

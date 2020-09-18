@@ -1,8 +1,7 @@
-﻿using BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace TP2_Module05.Utils
+namespace BO.Utils
 {
     public class FakeDb
     {

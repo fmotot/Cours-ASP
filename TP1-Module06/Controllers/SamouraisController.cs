@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BO;
 using TP1_Module06.Data;
+using TP1_Module06.Models;
 
 namespace TP1_Module06.Controllers
 {
@@ -39,7 +40,9 @@ namespace TP1_Module06.Controllers
         // GET: Samourais/Create
         public ActionResult Create()
         {
-            return View();
+            SamouraisViewModel vm = new SamouraisViewModel();
+            vm.Armes = db.Armes.Select(a => new SelectListItem() {Text = a.Nom + " " + a.Degats, Value = a.Id.ToString() }).ToList();
+            return View(vm);
         }
 
         // POST: Samourais/Create
@@ -47,16 +50,18 @@ namespace TP1_Module06.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Force,Nom")] Samourai samourai)
+        public ActionResult Create(SamouraisViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                db.Samourais.Add(samourai);
+                vm.Samourai.Arme = db.Armes.FirstOrDefault(a => a.Id == vm.IdArme);
+                db.Samourais.Add(vm.Samourai);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(samourai);
+            vm.Armes = db.Armes.Select(a => new SelectListItem() { Text = a.Nom + " " + a.Degats, Value = a.Id.ToString() }).ToList();
+            return View(vm);
         }
 
         // GET: Samourais/Edit/5

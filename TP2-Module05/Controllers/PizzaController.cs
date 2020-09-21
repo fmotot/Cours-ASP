@@ -47,7 +47,7 @@ namespace TP2_Module05.Controllers
             try
             {
 
-                if (ModelState.IsValid && IngredientsValidator(vm)) // && ValidateVM(vm))
+                if (ModelState.IsValid) // && ValidateVM(vm))
                 {
                     vm.Pizza.Pate = FakeDb.Instance.Pates.FirstOrDefault(p => p.Id == vm.IdPate);
                     vm.Pizza.Ingredients = FakeDb.Instance.Ingredients.Where(i => vm.IdIngredients.Contains(i.Id)).ToList();
@@ -60,10 +60,10 @@ namespace TP2_Module05.Controllers
                 {
                     vm.Pates = FakeDb.Instance.Pates.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
                     vm.Ingredients = FakeDb.Instance.Ingredients.Select(p => new SelectListItem { Text = p.Nom, Value = p.Id.ToString() }).ToList();
+                    
                     this.HttpContext.Response.StatusCode = 418;
                     return View(vm);
                 }
-
 
                 return RedirectToAction("Index");
             }

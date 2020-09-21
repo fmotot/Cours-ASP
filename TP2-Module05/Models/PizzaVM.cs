@@ -20,6 +20,7 @@ namespace TP2_Module05.Models
         [Required]
         [MinListNumber(2)]
         [MaxListNumber(5)]
+        [UniqueListIngredients]
         public List<int> IdIngredients { get; set; } = new List<int>();
     }
 }

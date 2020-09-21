@@ -48,6 +48,7 @@
     <Compile Include="Utils\FakeDb.cs" />
     <Compile Include="Validation\MaxListNumber.cs" />
     <Compile Include="Validation\MinListNumber.cs" />
+    <Compile Include="Validation\UniqueListIngredients.cs" />
     <Compile Include="Validation\Unique.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

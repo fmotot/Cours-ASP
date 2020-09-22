@@ -111,6 +111,14 @@ namespace TP1_Module06.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Arme arme = db.Armes.Find(id);
+
+            // Suppression de l'arme dans les samourais associés
+            db.Samourais.Where(s => s.Arme.Id == arme.Id).ToList().ForEach(s =>
+            {
+                s.Arme = null;
+                db.Entry(s).State = EntityState.Modified;
+            });
+
             db.Armes.Remove(arme);
             db.SaveChanges();
             return RedirectToAction("Index");

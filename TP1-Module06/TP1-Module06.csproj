@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MyHelpers.cs" />
     <Compile Include="Migrations\202009211419083_mig01.cs" />
     <Compile Include="Migrations\202009211419083_mig01.Designer.cs">
       <DependentUpon>202009211419083_mig01.cs</DependentUpon>
@@ -187,6 +188,7 @@
     <Content Include="Views\Samourais\Details.cshtml" />
     <Content Include="Views\Samourais\Edit.cshtml" />
     <Content Include="Views\Samourais\Index.cshtml" />
+    <Content Include="Views\Shared\_Samourai.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

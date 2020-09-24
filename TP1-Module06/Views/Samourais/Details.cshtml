@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Force)
         </dt>
 
@@ -19,12 +27,35 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Nom)
+            @Html.DisplayNameFor(model => model.Potentiel)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Nom)
+            @Html.DisplayFor(model => model.Potentiel)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Arme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Arme.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtMartials)
+        </dt>
+
+        <dd>
+            @foreach (var item in Model.ArtMartials)
+            {
+                @Html.DisplayFor(modelitem => item.Nom) <br/>
+            }
+        </dd>
+
+
+
+
 
     </dl>
 </div>

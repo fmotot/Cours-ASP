@@ -13,7 +13,7 @@ namespace TP1_Module06.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202009211419083_mig01"; }
+            get { return "202009230808180_mig01"; }
         }
         
         string IMigrationMetadata.Source

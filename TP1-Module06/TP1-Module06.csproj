@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ArmesController.cs" />
+    <Compile Include="Controllers\ArtMartialsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SamouraisController.cs" />
     <Compile Include="Data\TP1_Module06Context.cs" />
@@ -134,9 +135,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MyHelpers.cs" />
-    <Compile Include="Migrations\202009211419083_mig01.cs" />
-    <Compile Include="Migrations\202009211419083_mig01.Designer.cs">
-      <DependentUpon>202009211419083_mig01.cs</DependentUpon>
+    <Compile Include="Migrations\202009230808180_mig01.cs" />
+    <Compile Include="Migrations\202009230808180_mig01.Designer.cs">
+      <DependentUpon>202009230808180_mig01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009231025320_mig02.cs" />
+    <Compile Include="Migrations\202009231025320_mig02.Designer.cs">
+      <DependentUpon>202009231025320_mig02.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SamouraisViewModel.cs" />
@@ -189,6 +194,11 @@
     <Content Include="Views\Samourais\Edit.cshtml" />
     <Content Include="Views\Samourais\Index.cshtml" />
     <Content Include="Views\Shared\_Samourai.cshtml" />
+    <Content Include="Views\ArtMartials\Create.cshtml" />
+    <Content Include="Views\ArtMartials\Delete.cshtml" />
+    <Content Include="Views\ArtMartials\Details.cshtml" />
+    <Content Include="Views\ArtMartials\Edit.cshtml" />
+    <Content Include="Views\ArtMartials\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -213,8 +223,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202009211419083_mig01.resx">
-      <DependentUpon>202009211419083_mig01.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009230808180_mig01.resx">
+      <DependentUpon>202009230808180_mig01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009231025320_mig02.resx">
+      <DependentUpon>202009231025320_mig02.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

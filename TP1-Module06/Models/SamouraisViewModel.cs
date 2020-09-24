@@ -14,5 +14,9 @@ namespace TP1_Module06.Models
         public int? IdArme { get; set; }
 
         public List<SelectListItem> Armes { get; set; } = new List<SelectListItem>();
+
+        public List<SelectListItem> ArtMartials { get; set; } = new List<SelectListItem>();
+
+        public List<int> IdArtMartials { get; set; } = new List<int>();
     }
 }

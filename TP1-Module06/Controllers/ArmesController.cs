@@ -102,6 +102,11 @@ namespace TP1_Module06.Controllers
             {
                 return HttpNotFound();
             }
+            if (db.Samourais.Where(s => s.Arme.Id == arme.Id).FirstOrDefault() != null)
+            {
+                ModelState.AddModelError("", "Impossible de supprimer cette arme, vous devez d'abord la détacher du samourai");
+                return View();
+            }
             return View(arme);
         }
 
@@ -112,15 +117,12 @@ namespace TP1_Module06.Controllers
         {
             Arme arme = db.Armes.Find(id);
 
-            // Suppression de l'arme dans les samourais associés
-            db.Samourais.Where(s => s.Arme.Id == arme.Id).ToList().ForEach(s =>
+            if (db.Samourais.Where(s => s.Arme.Id == arme.Id).FirstOrDefault() == null)
             {
-                s.Arme = null;
-                db.Entry(s).State = EntityState.Modified;
-            });
+                db.Armes.Remove(arme);
+                db.SaveChanges();
+            }
 
-            db.Armes.Remove(arme);
-            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

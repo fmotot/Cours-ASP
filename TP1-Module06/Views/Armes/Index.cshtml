@@ -29,9 +29,14 @@
             @Html.DisplayFor(modelItem => item.Degats)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) 
+            @if (!(ViewBag.ArmesLibres as List<int>).Contains(item.Id))
+            {
+                 @Html.DisplayName("| ")
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            }
         </td>
     </tr>
 }

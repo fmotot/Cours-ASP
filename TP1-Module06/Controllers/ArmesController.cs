@@ -18,6 +18,7 @@ namespace TP1_Module06.Controllers
         // GET: Armes
         public ActionResult Index()
         {
+            ViewBag.ArmesLibres = db.Samourais.Where(s => s.Arme != null).Select(s => s.Arme.Id).ToList();
             return View(db.Armes.ToList());
         }
 
